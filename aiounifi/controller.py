@@ -10,6 +10,7 @@ from .clients import (Clients, URL as client_url,
                       ClientsAll, URL_ALL as all_client_url)
 from .devices import Devices, URL as device_url
 from .errors import raise_error, ResponseError, RequestError
+from .wlan import Wlans, URL as wlan_url
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ class Controller:
         self.clients = None
         self.clients_all = None
         self.devices = None
+        self.wlans = None
 
     async def login(self):
         url = 'login'
@@ -54,6 +56,8 @@ class Controller:
         self.devices = Devices(devices, self.request)
         all_clients = await self.request('get', all_client_url)
         self.clients_all = ClientsAll(all_clients, self.request)
+        # wlans = await self.request('get', wlan_url)
+        # self.wlans = Wlans(wlans, self.request)
 
     async def request(self, method, path, json=None):
         """Make a request to the API."""
